@@ -1,10 +1,10 @@
 ---
-title: "Untitled"
+  title: "Untitled"
 output: html_document
 
 ---
-
-```{r setup, include=FALSE}
+  
+  ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -18,6 +18,7 @@ theme_set(theme_light())
 ```{r}
 recent_grads <- 
   read_csv("https://raw.githubusercontent.com/sanyalh/tidytuesday/master/data/2018/2018-10-16/recent-grads.csv")
+#View(recent_grads)
 ```
 
 # Histogram
@@ -29,15 +30,15 @@ recent_grads %>%
 
 # What are the most common majors
 ```{r}
+
 recent_grads %>% 
   count(Major_category, wt = Total, sort = TRUE) %>% 
   mutate(Major_category = fct_reorder(Major_category,n)) %>%
   ggplot(aes(Major_category, n, fill = Major_category)) +
   geom_col() +
   coord_flip() +
-  labs(
-  x = "",
-  y= "Total # of Graduates") +
+  labs(x = "", 
+       y= "Total # of Graduates") +
   theme(legend.position = "none")
 
 ```
@@ -68,9 +69,9 @@ majors_processed <- recent_grads %>%
   arrange(desc(Median)) %>% 
   select(Major,Major_category,Median,P25th,P75th, Sample_size) %>% 
   mutate(Major = str_to_title(Major),
-    Major = fct_reorder(Major,Median))
+         Major = fct_reorder(Major,Median))
 
-  majors_processed %>% 
+majors_processed %>% 
   filter(Sample_size >= 100) %>% 
   head(20) %>%
   ggplot(aes(Major,Median, color=Major_category)) + 
@@ -80,10 +81,10 @@ majors_processed <- recent_grads %>%
   scale_y_continuous(labels = dollar_format()) +
   coord_flip() +
   labs(title = "What are the highest earning majors",
-  subtitle = "Top 20 majors with at least 100 grdauates surveyed, Bars represent the 2th to 75th percentile",
-  x = "",
-  y= "Median Salary of Graduates")
-  
+       subtitle = "Top 20 majors with at least 100 grdauates surveyed, Bars represent the 2th to 75th percentile",
+       x = "",
+       y= "Median Salary of Graduates")
+
 ```
 # What are the lowest earning majors
 ```{r}
